@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <shortcut
+        android:enabled="true"
+        android:icon="@android:drawable/stat_sys_download"
+        android:shortcutId="open_downloads"
+        android:shortcutLongLabel="@string/tab_downloads"
+        android:shortcutShortLabel="@string/tab_downloads">
+        <intent
+            android:action="android.intent.action.MAIN"
+            android:targetClass="com.kirufetch.app.ui.screens.MainActivity"
+            android:targetPackage="com.kirufetch.app">
+            <extra
+                android:name="open_downloads"
+                android:value="true" />
+        </intent>
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+
+    <shortcut
+        android:enabled="true"
+        android:icon="@android:drawable/ic_menu_search"
+        android:shortcutId="open_browser"
+        android:shortcutLongLabel="@string/tab_browser"
+        android:shortcutShortLabel="@string/tab_browser">
+        <intent
+            android:action="android.intent.action.MAIN"
+            android:targetClass="com.kirufetch.app.ui.screens.MainActivity"
+            android:targetPackage="com.kirufetch.app" />
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+
+</shortcuts>

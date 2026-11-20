@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    android:clipToPadding="false"
+    android:paddingBottom="@dimen/space_xl">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/space_l">
+
+        <TextView
+            style="@style/Text.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_s"
+            android:text="@string/settings"
+            android:textSize="20sp" />
+
+        <!-- 线程 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_l"
+            android:background="@drawable/bg_card"
+            android:orientation="vertical"
+            android:padding="@dimen/space_l">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/Text.Body"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/setting_threads" />
+
+                <TextView
+                    android:id="@+id/setting_threads_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:letterSpacing="0.08"
+                    android:textColor="@color/text"
+                    android:textSize="@dimen/text_body" />
+            </LinearLayout>
+
+            <SeekBar
+                android:id="@+id/setting_threads_seek"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_s"
+                android:max="15"
+                android:progressBackgroundTint="@color/surface_3"
+                android:progressTint="@color/text"
+                android:thumbTint="@color/text" />
+
+        </LinearLayout>
+
+        <!-- UA -->
+        <TextView
+            style="@style/Text.Kicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_xl"
+            android:layout_marginStart="@dimen/space_xs"
+            android:text="@string/setting_ua" />
+
+        <EditText
+            android:id="@+id/setting_ua"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_s"
+            android:background="@drawable/bg_input"
+            android:gravity="top"
+            android:maxLines="3"
+            android:minHeight="76dp"
+            android:padding="@dimen/space_m"
+            android:textColor="@color/text"
+            android:textSize="@dimen/text_caption" />
+
+        <!-- 开关组 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_l"
+            android:background="@drawable/bg_card"
+            android:orientation="vertical"
+            android:paddingVertical="@dimen/space_xs">
+
+            <Switch
+                android:id="@+id/setting_cookies"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/touch_target"
+                android:paddingHorizontal="@dimen/space_l"
+                android:text="@string/setting_cookies"
+                android:textColor="@color/text"
+                android:textSize="@dimen/text_body" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="@dimen/space_l"
+                android:background="@color/divider" />
+
+            <Switch
+                android:id="@+id/setting_auto_sniff"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/touch_target"
+                android:paddingHorizontal="@dimen/space_l"
+                android:text="@string/setting_auto_sniff"
+                android:textColor="@color/text"
+                android:textSize="@dimen/text_body" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="@dimen/space_l"
+                android:background="@color/divider" />
+
+            <Switch
+                android:id="@+id/setting_clipboard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/touch_target"
+                android:paddingHorizontal="@dimen/space_l"
+                android:text="@string/setting_clipboard"
+                android:textColor="@color/text"
+                android:textSize="@dimen/text_body" />
+
+        </LinearLayout>
+
+        <!-- 存储 -->
+        <TextView
+            style="@style/Text.Kicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_xl"
+            android:layout_marginStart="@dimen/space_xs"
+            android:text="@string/setting_storage" />
+
+        <LinearLayout
+            android:id="@+id/setting_storage_row"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_s"
+            android:background="@drawable/bg_card"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/space_m">
+
+            <TextView
+                android:id="@+id/setting_storage_path"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/text_dim"
+                android:textSize="@dimen/text_caption" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_m"
+                android:letterSpacing="0.1"
+                android:text="@string/choose_folder"
+                android:textColor="@color/text"
+                android:textSize="@dimen/text_caption" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/setting_storage_reset"
+            style="@style/Text.Caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_m"
+            android:layout_marginStart="@dimen/space_xs"
+            android:letterSpacing="0.06"
+            android:paddingVertical="@dimen/space_xs"
+            android:text="@string/reset_folder"
+            android:textColor="@color/text_dim"
+            android:visibility="gone" />
+
+        <TextView
+            style="@style/Text.Caption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_s"
+            android:layout_marginStart="@dimen/space_xs"
+            android:text="@string/setting_storage_hint"
+            android:textColor="@color/text_faint"
+            android:textSize="11sp" />
+
+        <TextView
+            style="@style/Text.Caption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_xl"
+            android:text="@string/setting_boundary"
+            android:textColor="@color/text_faint"
+            android:textSize="11sp" />
+
+    </LinearLayout>
+
+</ScrollView>

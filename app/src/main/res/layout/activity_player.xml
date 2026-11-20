@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black">
+
+    <VideoView
+        android:id="@+id/video_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center" />
+
+    <!-- 首帧渲染前 VideoView 的 Surface 是未初始化的（常见是整片绿），盖一层黑色挡住 -->
+    <View
+        android:id="@+id/player_blackout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/black" />
+
+    <!-- 返回键：播放页全屏，不给返回入口会把人困住 -->
+    <ImageButton
+        android:id="@+id/player_back"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_gravity="top|start"
+        android:layout_margin="@dimen/space_m"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/back"
+        android:scaleType="center"
+        android:src="@drawable/ic_back"
+        android:tint="@android:color/white" />
+
+</FrameLayout>

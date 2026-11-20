@@ -1,0 +1,80 @@
+<resources>
+    <string name="app_name">KiruFetch</string>
+
+    <string name="tab_browser">浏览器</string>
+    <string name="tab_downloads">下载</string>
+    <string name="tab_settings">设置</string>
+
+    <string name="hint_url">输入网址或媒体直链</string>
+    <string name="go">前往</string>
+    <string name="back">后退</string>
+    <string name="forward">前进</string>
+    <string name="reload">刷新</string>
+    <string name="desktop_mode">桌面模式</string>
+    <string name="more">更多</string>
+    <string name="desktop_on">开启桌面模式</string>
+    <string name="desktop_off">关闭桌面模式</string>
+    <string name="copy_url">复制当前地址</string>
+    <string name="clear_list">清空已发现列表</string>
+
+    <string name="bookmarks">书签</string>
+    <string name="history">历史</string>
+    <string name="empty_bookmarks">暂无书签</string>
+    <string name="empty_history">暂无历史记录</string>
+    <string name="clear_history">清空历史</string>
+    <string name="add_bookmark">加入书签</string>
+    <string name="remove_bookmark">取消书签</string>
+    <string name="bookmark_list">书签与历史</string>
+    <string name="search_engine">搜索引擎</string>
+    <string name="clipboard_found">剪贴板中有链接</string>
+    <string name="open_link">打开</string>
+    <string name="setting_clipboard">监听剪贴板链接</string>
+    <string name="found_videos">发现视频</string>
+    <string name="found_count">发现 %1$d 个视频</string>
+    <string name="queued">已加入下载队列</string>
+    <string name="download_failed">下载失败：%1$s</string>
+
+    <string name="download">下载</string>
+    <string name="copy_link">已复制链接</string>
+    <string name="empty_downloads">暂无下载任务</string>
+    <string name="kicker_downloads">DOWNLOADS</string>
+    <string name="kicker_settings">SETTINGS</string>
+    <string name="tab_in_progress">进行中</string>
+    <string name="tab_completed">已完成</string>
+    <string name="empty_downloads_active">暂无进行中的任务</string>
+    <string name="empty_downloads_done">暂无已完成的任务</string>
+
+    <string name="settings">设置</string>
+    <string name="setting_threads">下载线程数</string>
+    <string name="setting_threads_value">%1$d 线程</string>
+    <string name="setting_ua">User-Agent</string>
+    <string name="setting_cookies">下载时携带页面 Cookie</string>
+    <string name="setting_auto_sniff">自动嗅探视频</string>
+    <string name="setting_boundary">不处理登录墙、付费墙、DRM 与受访问控制的媒体。</string>
+    <string name="setting_storage">下载目录</string>
+    <string name="choose_folder">选择</string>
+    <string name="reset_folder">恢复默认目录</string>
+    <string name="storage_app_default">应用专属目录（默认）</string>
+    <string name="setting_storage_hint">文件保存在应用专属下载目录，可用系统分享或在文件管理器中查看</string>
+
+    <string name="status_queued">排队中</string>
+    <string name="status_running">下载中 %1$d%%</string>
+    <string name="status_paused">已暂停 %1$d%%</string>
+    <string name="status_done">已完成 · %1$s</string>
+    <string name="status_failed">失败 · %1$s</string>
+    <string name="status_canceled">已取消</string>
+    <string name="size_unknown">未知大小</string>
+
+    <string name="delete_task">删除任务</string>
+    <string name="delete_task_message">同时删除已下载的文件吗？</string>
+    <string name="delete">删除</string>
+    <string name="cancel">取消</string>
+    <string name="share">分享</string>
+    <string name="play">播放</string>
+    <string name="play_failed">无法播放该文件</string>
+    <string name="file_missing">文件已不存在，请重新下载</string>
+    <string name="expand_list">展开列表</string>
+    <string name="new_tab">新建标签页</string>
+    <string name="close_tab">关闭标签页</string>
+    <string name="tab_untitled">新标签页</string>
+</resources>

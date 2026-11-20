@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Theme.KiruFetch" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorOnPrimary">@color/bg</item>
+        <item name="colorSecondary">@color/primary</item>
+        <item name="colorOnSecondary">@color/bg</item>
+        <item name="colorSurface">@color/surface</item>
+        <item name="colorOnSurface">@color/text</item>
+        <item name="android:colorBackground">@color/bg</item>
+        <item name="android:windowBackground">@color/bg</item>
+        <item name="android:statusBarColor">@color/bg</item>
+        <item name="android:navigationBarColor">@color/bg</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Activity</item>
+    </style>
+
+    <!-- 播放页保持纯黑，任何白色都会破坏观影 -->
+    <style name="Theme.KiruFetch.Player" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="android:windowBackground">@android:color/black</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:statusBarColor">@android:color/black</item>
+        <item name="android:navigationBarColor">@android:color/black</item>
+    </style>
+
+    <!-- 标题：细字重 + 大字距，参考 LESS IS MORE -->
+    <style name="Text.Title" parent="">
+        <item name="android:textSize">@dimen/text_title</item>
+        <item name="android:textColor">@color/text</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:letterSpacing">0.14</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="Text.Body" parent="">
+        <item name="android:textSize">@dimen/text_body</item>
+        <item name="android:textColor">@color/text</item>
+        <item name="android:letterSpacing">0.02</item>
+    </style>
+
+    <style name="Text.Caption" parent="">
+        <item name="android:textSize">@dimen/text_caption</item>
+        <item name="android:textColor">@color/text_dim</item>
+        <item name="android:letterSpacing">0.02</item>
+    </style>
+
+    <!-- 小标签：全大写 + 宽字距 -->
+    <style name="Text.Kicker" parent="">
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/text_faint</item>
+        <item name="android:letterSpacing">0.18</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+    <style name="Widget.IconButton" parent="">
+        <item name="android:layout_width">@dimen/touch_target</item>
+        <item name="android:layout_height">@dimen/touch_target</item>
+        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+        <item name="android:scaleType">center</item>
+        <item name="android:tint">@color/text</item>
+    </style>
+
+</resources>

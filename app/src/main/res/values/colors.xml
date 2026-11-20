@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 极简留白：白底、墨色文字、发丝线 -->
+    <color name="bg">#FFFFFF</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="surface_2">#FAFAFA</color>
+    <color name="surface_3">#EDEDED</color>
+
+    <color name="primary">#1A1A1A</color>
+    <color name="primary_dim">#7A7A7A</color>
+    <color name="accent">#1A1A1A</color>
+
+    <color name="text">#1A1A1A</color>
+    <color name="text_dim">#6E6E6E</color>
+    <color name="text_faint">#A8A8A8</color>
+
+    <color name="danger">#B3261E</color>
+    <color name="success">#1A1A1A</color>
+
+    <color name="divider">#E8E8E8</color>
+    <color name="scrim">#33000000</color>
+
+    <!-- 卡片：solid 用于内容区，translucent 让背景微粒隐约透出 -->
+    <color name="card">#FFFFFF</color>
+    <color name="card_translucent">#D9FFFFFF</color>
+    <color name="nav_translucent">#F0FFFFFF</color>
+    <color name="hairline">#E6E6E6</color>
+</resources>

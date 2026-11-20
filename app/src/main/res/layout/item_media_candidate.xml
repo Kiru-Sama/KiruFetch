@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/space_l"
+    android:layout_marginVertical="@dimen/space_xs"
+    android:background="@drawable/bg_card"
+    android:padding="@dimen/space_l">
+
+    <TextView
+        android:id="@+id/candidate_kind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_pill_accent"
+        android:letterSpacing="0.08"
+        android:paddingHorizontal="@dimen/space_s"
+        android:paddingVertical="3dp"
+        android:textColor="@color/bg"
+        android:textSize="9sp"
+        app:layout_constraintBottom_toBottomOf="@id/candidate_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/candidate_title"
+        tools:text="HLS" />
+
+    <TextView
+        android:id="@+id/candidate_title"
+        style="@style/Text.Body"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_s"
+        android:ellipsize="middle"
+        android:maxLines="1"
+        app:layout_constraintEnd_toStartOf="@id/candidate_download"
+        app:layout_constraintStart_toEndOf="@id/candidate_kind"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/candidate_meta"
+        style="@style/Text.Caption"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/text_faint"
+        app:layout_constraintEnd_toStartOf="@id/candidate_download"
+        app:layout_constraintStart_toStartOf="@id/candidate_title"
+        app:layout_constraintTop_toBottomOf="@id/candidate_title" />
+
+    <ImageButton
+        android:id="@+id/candidate_download"
+        style="@style/Widget.IconButton"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:src="@drawable/ic_download_line"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

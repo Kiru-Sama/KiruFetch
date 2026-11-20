@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent">
+
+    <!-- 标签条 -->
+    <LinearLayout
+        android:id="@+id/tab_bar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_l"
+        android:layout_marginTop="@dimen/space_xs"
+        android:layout_marginEnd="@dimen/space_s"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_strip"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            app:tabGravity="start"
+            app:tabIndicatorColor="@color/text"
+            app:tabIndicatorFullWidth="false"
+            app:tabIndicatorHeight="2dp"
+            app:tabMode="scrollable"
+            app:tabPaddingEnd="@dimen/space_s"
+            app:tabPaddingStart="@dimen/space_s"
+            app:tabRippleColor="@null"
+            app:tabSelectedTextColor="@color/text"
+            app:tabTextColor="@color/text_faint" />
+
+        <ImageButton
+            android:id="@+id/btn_new_tab"
+            style="@style/Widget.IconButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:contentDescription="@string/new_tab"
+            android:src="@drawable/ic_plus" />
+
+    </LinearLayout>
+
+    <!-- 地址栏 -->
+    <LinearLayout
+        android:id="@+id/toolbar_row"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/space_m"
+        android:layout_marginTop="@dimen/space_xs"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tab_bar">
+
+        <ImageButton
+            android:id="@+id/btn_back"
+            style="@style/Widget.IconButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:contentDescription="@string/back"
+            android:src="@drawable/ic_back" />
+
+        <EditText
+            android:id="@+id/url_input"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="@dimen/space_xs"
+            android:layout_weight="1"
+            android:background="@drawable/bg_input"
+            android:hint="@string/hint_url"
+            android:imeOptions="actionGo"
+            android:inputType="textUri"
+            android:maxLines="1"
+            android:paddingStart="@dimen/space_m"
+            android:paddingEnd="@dimen/space_m"
+            android:textColor="@color/text"
+            android:textColorHint="@color/text_faint"
+            android:textSize="@dimen/text_input" />
+
+        <TextView
+            android:id="@+id/go_button"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="@dimen/space_s"
+            android:background="@drawable/bg_button_outline"
+            android:gravity="center"
+            android:letterSpacing="0.12"
+            android:minWidth="56dp"
+            android:paddingHorizontal="@dimen/space_m"
+            android:text="@string/go"
+            android:textColor="@color/text"
+            android:textSize="@dimen/text_caption" />
+
+        <ImageButton
+            android:id="@+id/btn_more"
+            style="@style/Widget.IconButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="@dimen/space_xs"
+            android:contentDescription="@string/more"
+            android:src="@drawable/ic_more" />
+
+    </LinearLayout>
+
+    <!-- 每个标签一个 WebView，代码里动态添加 -->
+    <FrameLayout
+        android:id="@+id/web_container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/space_s"
+        app:layout_constraintBottom_toTopOf="@id/found_panel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_row" />
+
+    <!-- 底部发现条 -->
+    <LinearLayout
+        android:id="@+id/found_panel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_sheet"
+        android:gravity="center_vertical"
+        android:minHeight="44dp"
+        android:orientation="horizontal"
+        android:paddingHorizontal="@dimen/space_l"
+        android:paddingVertical="@dimen/space_s"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <View
+            android:layout_width="5dp"
+            android:layout_height="5dp"
+            android:background="@drawable/bg_dot_ink" />
+
+        <TextView
+            android:id="@+id/found_text"
+            style="@style/Text.Body"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_m"
+            android:layout_weight="1"
+            android:letterSpacing="0.06"
+            android:text="@string/found_videos"
+            android:textColor="@color/text_dim"
+            android:textSize="13sp" />
+
+        <ImageButton
+            android:id="@+id/btn_expand"
+            style="@style/Widget.IconButton"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:contentDescription="@string/found_videos"
+            android:rotation="180"
+            android:src="@drawable/ic_chevron_down" />
+
+    </LinearLayout>
+
+    <!-- 候选列表，展开时才显示 -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/candidate_list"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@android:color/transparent"
+        android:clipToPadding="false"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/found_panel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_row" />
+
+    <!-- 隐藏按钮，代码里仍用得到 -->
+    <ImageButton
+        android:id="@+id/btn_forward"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone" />
+
+    <ImageButton
+        android:id="@+id/btn_reload"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone" />
+
+    <ImageButton
+        android:id="@+id/btn_desktop"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
