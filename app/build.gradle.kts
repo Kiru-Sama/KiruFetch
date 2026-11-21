@@ -15,6 +15,10 @@ val keystoreProps = Properties().apply {
 }
 val hasSigning = keystorePropsFile.exists()
 
+// CI 打 tag 时用 tag 名做版本号（v1.0.1 -> 1.0.1），本地构建不设则用默认值
+val envVersionName = System.getenv("VERSION_NAME")?.removePrefix("v")?.takeIf { it.isNotBlank() }
+val envVersionCode = System.getenv("VERSION_CODE")?.toIntOrNull()
+
 android {
     namespace = "com.kirufetch.app"
     compileSdk = 34
@@ -23,8 +27,8 @@ android {
         applicationId = "com.kirufetch.app"
         minSdk = 26
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0.0"
+        versionCode = envVersionCode ?: 1
+        versionName = envVersionName ?: "1.0.0"
     }
 
     signingConfigs {
