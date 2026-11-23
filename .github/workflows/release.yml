@@ -61,9 +61,22 @@ jobs:
           mkdir -p out
           cp app/build/outputs/apk/release/app-release.apk "out/KiruFetch-${GITHUB_REF_NAME#v}.apk"
 
+      - name: Extract changelog
+        run: |
+          python3 - <<'EOF'
+          import os, re
+          tag = os.environ["GITHUB_REF_NAME"].lstrip("v")
+          text = open("CHANGELOG.md", encoding="utf-8").read()
+          m = re.search(r"^## \[" + re.escape(tag) + r"\][^\n]*\n(.*?)(?=^## \[|\Z)", text, re.S | re.M)
+          body = (m.group(1).strip() if m else "")
+          body += "\n\n---\n\n完整说明见 [CHANGELOG.md](https://github.com/Kiru-Sama/KiruFetch/blob/main/CHANGELOG.md)。"
+          open("release-notes.md", "w", encoding="utf-8").write(body)
+          print(body[:200])
+          EOF
+
       - name: Publish release
         uses: softprops/action-gh-release@v2
         with:
           files: out/*.apk
-          generate_release_notes: true
+          body_path: release-notes.md
           fail_on_unmatched_files: true
