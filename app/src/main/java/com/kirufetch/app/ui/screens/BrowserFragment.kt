@@ -533,6 +533,9 @@ class BrowserFragment : Fragment(R.layout.fragment_browser) {
         items += getString(R.string.copy_url)
         items += getString(R.string.clear_list)
         items += getString(R.string.reload)
+        items += getString(R.string.share_link)
+        items += getString(R.string.open_external)
+        items += getString(R.string.forward)
 
         AlertDialog.Builder(requireContext())
             .setItems(items.toTypedArray()) { _, which ->
@@ -548,6 +551,9 @@ class BrowserFragment : Fragment(R.layout.fragment_browser) {
                     4 -> copyCurrentUrl(currentUrl)
                     5 -> clearCandidates(tab)
                     6 -> tab.webView.reload()
+                    7 -> shareUrl(currentUrl)
+                    8 -> openExternal(currentUrl)
+                    9 -> if (tab.webView.canGoForward()) tab.webView.goForward()
                 }
             }
             .show()
@@ -589,6 +595,24 @@ class BrowserFragment : Fragment(R.layout.fragment_browser) {
                 dialog.dismiss()
             }
             .show()
+    }
+
+    private fun shareUrl(url: String) {
+        if (url.isBlank()) return
+        val intent = android.content.Intent(android.content.Intent.ACTION_SEND).apply {
+            type = "text/plain"
+            putExtra(android.content.Intent.EXTRA_TEXT, url)
+        }
+        startActivity(android.content.Intent.createChooser(intent, getString(R.string.share_link)))
+    }
+
+    private fun openExternal(url: String) {
+        if (url.isBlank()) return
+        runCatching {
+            startActivity(android.content.Intent(android.content.Intent.ACTION_VIEW, android.net.Uri.parse(url)))
+        }.onFailure {
+            Toast.makeText(requireContext(), R.string.play_failed, Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun copyCurrentUrl(url: String) {

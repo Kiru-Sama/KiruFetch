@@ -17,6 +17,25 @@
         android:layout_height="match_parent"
         android:background="@android:color/black" />
 
+    <!-- 手势层：单击显隐控制条，双击左右快进快退，上下滑调亮度/音量 -->
+    <View
+        android:id="@+id/player_gesture"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent" />
+
+    <TextView
+        android:id="@+id/player_hud"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="#B3000000"
+        android:paddingHorizontal="18dp"
+        android:paddingVertical="10dp"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        android:visibility="gone" />
+
     <!-- 返回键：播放页全屏，不给返回入口会把人困住 -->
     <ImageButton
         android:id="@+id/player_back"

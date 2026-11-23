@@ -68,6 +68,12 @@
     <string name="delete_task">删除任务</string>
     <string name="delete_task_message">只删除下载记录？已保存到相册或所选目录的文件会保留。</string>
     <string name="delete_record_only">只删记录</string>
+    <string name="share_link">分享链接</string>
+    <string name="open_external">在浏览器中打开</string>
+    <string name="hud_brightness">亮度 %1$d%%</string>
+    <string name="hud_volume">音量 %1$d%%</string>
+    <string name="hud_forward">快进 %1$d 秒</string>
+    <string name="hud_backward">快退 %1$d 秒</string>
     <string name="batch_all">全选</string>
     <string name="batch_none">取消全选</string>
     <string name="batch_pause">暂停</string>

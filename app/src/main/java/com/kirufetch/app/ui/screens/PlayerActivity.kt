@@ -1,7 +1,12 @@
 package com.kirufetch.app.ui.screens
 
+import android.media.AudioManager
 import android.os.Bundle
+import android.view.GestureDetector
+import android.view.MotionEvent
+import android.view.View
 import android.widget.MediaController
+import android.widget.TextView
 import android.widget.VideoView
 import androidx.appcompat.app.AppCompatActivity
 import com.kirufetch.app.R
@@ -11,6 +16,17 @@ import java.io.File
 class PlayerActivity : AppCompatActivity() {
 
     private lateinit var videoView: VideoView
+    private lateinit var controller: MediaController
+    private lateinit var hud: TextView
+    private val audio by lazy { getSystemService(AudioManager::class.java) }
+
+    private var downY = 0f
+    private var dragging = false
+    private var dragSide = 0 // 1=亮度 2=音量
+    private var startBrightness = 0.5f
+    private var startVolume = 0
+    private var maxVolume = 1
+    private val hudRunnable = Runnable { hud.visibility = View.GONE }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,9 +55,13 @@ class PlayerActivity : AppCompatActivity() {
             return
         }
 
-        val controller = MediaController(this)
+        controller = MediaController(this)
         controller.setAnchorView(videoView)
         videoView.setMediaController(controller)
+
+        hud = findViewById(R.id.player_hud)
+        maxVolume = audio.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
+        setupGestures(findViewById(R.id.player_gesture))
 
         val uri = if (StorageTarget.isDocumentPath(path)) {
             // 用户把文件存到了自己选的目录，走 content:// 直接播
@@ -69,6 +89,92 @@ class PlayerActivity : AppCompatActivity() {
             true
         }
         videoView.start()
+    }
+
+    /** 单击显隐控制条、双击左右快退/快进、上下滑调亮度/音量。 */
+    private fun setupGestures(layer: View) {
+        val density = resources.displayMetrics.density
+        val threshold = 24 * density
+        val detector = GestureDetector(this, object : GestureDetector.SimpleOnGestureListener() {
+            override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
+                if (controller.isShowing) controller.hide() else controller.show(3000)
+                return true
+            }
+
+            override fun onDoubleTap(e: MotionEvent): Boolean {
+                val stepMs = 10_000
+                if (e.x < videoView.width / 2f) {
+                    videoView.seekTo((videoView.currentPosition - stepMs).coerceAtLeast(0))
+                    flashHud(getString(R.string.hud_backward, 10))
+                } else {
+                    val target = (videoView.currentPosition + stepMs)
+                        .coerceAtMost(videoView.duration.coerceAtLeast(0))
+                    videoView.seekTo(target)
+                    flashHud(getString(R.string.hud_forward, 10))
+                }
+                return true
+            }
+        })
+
+        layer.setOnTouchListener { v, ev ->
+            detector.onTouchEvent(ev)
+            when (ev.actionMasked) {
+                MotionEvent.ACTION_DOWN -> {
+                    downY = ev.y
+                    dragging = false
+                    dragSide = 0
+                    startBrightness = window.attributes.screenBrightness
+                    if (startBrightness < 0f) startBrightness = 0.5f
+                    startVolume = audio.getStreamVolume(AudioManager.STREAM_MUSIC)
+                }
+
+                MotionEvent.ACTION_MOVE -> {
+                    val dy = ev.y - downY
+                    if (!dragging && kotlin.math.abs(dy) > threshold) {
+                        dragging = true
+                        dragSide = if (ev.x < v.width / 2f) 1 else 2
+                        startBrightness = window.attributes.screenBrightness
+                        if (startBrightness < 0f) startBrightness = 0.5f
+                        startVolume = audio.getStreamVolume(AudioManager.STREAM_MUSIC)
+                    }
+                    if (dragging) {
+                        val delta = -dy / v.height.toFloat()
+                        if (dragSide == 1) {
+                            val value = (startBrightness + delta).coerceIn(0.02f, 1f)
+                            val attrs = window.attributes
+                            attrs.screenBrightness = value
+                            window.attributes = attrs
+                            flashHud(getString(R.string.hud_brightness, (value * 100).toInt()))
+                        } else {
+                            val value = (startVolume + delta * maxVolume).toInt()
+                                .coerceIn(0, maxVolume)
+                            if (value != audio.getStreamVolume(AudioManager.STREAM_MUSIC)) {
+                                audio.setStreamVolume(AudioManager.STREAM_MUSIC, value, 0)
+                            }
+                            flashHud(getString(R.string.hud_volume, value * 100 / maxVolume))
+                        }
+                        return@setOnTouchListener true
+                    }
+                }
+
+                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                    if (dragging) {
+                        dragging = false
+                        v.removeCallbacks(hudRunnable)
+                        v.postDelayed(hudRunnable, 600)
+                        return@setOnTouchListener true
+                    }
+                }
+            }
+            true
+        }
+    }
+
+    private fun flashHud(text: String) {
+        hud.text = text
+        hud.visibility = View.VISIBLE
+        hud.removeCallbacks(hudRunnable)
+        hud.postDelayed(hudRunnable, 1200)
     }
 
     override fun onPause() {
