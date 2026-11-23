@@ -55,7 +55,7 @@
     <string name="choose_folder">选择</string>
     <string name="reset_folder">恢复默认目录</string>
     <string name="storage_app_default">应用专属目录（默认）</string>
-    <string name="setting_storage_hint">文件保存在应用专属下载目录，可用系统分享或在文件管理器中查看</string>
+    <string name="setting_storage_hint">不选目录时保存到相册（Movies/KiruFetch）；选了目录则保存到该目录</string>
 
     <string name="status_queued">排队中</string>
     <string name="status_running">下载中 %1$d%%</string>
@@ -66,7 +66,19 @@
     <string name="size_unknown">未知大小</string>
 
     <string name="delete_task">删除任务</string>
-    <string name="delete_task_message">同时删除已下载的文件吗？</string>
+    <string name="delete_task_message">只删除下载记录？已保存到相册或所选目录的文件会保留。</string>
+    <string name="delete_record_only">只删记录</string>
+    <string name="batch_all">全选</string>
+    <string name="batch_none">取消全选</string>
+    <string name="batch_pause">暂停</string>
+    <string name="batch_delete">删除</string>
+    <string name="batch_cancel">完成</string>
+    <string name="batch_selected">已选 %1$d 项</string>
+    <string name="batch_delete_title">删除 %1$d 条记录？</string>
+    <string name="batch_delete_message">只删除下载记录，已保存到相册或所选目录的文件会保留。</string>
+    <string name="delete_with_file">连文件一起删</string>
+    <string name="setting_gallery">保存到相册</string>
+    <string name="setting_gallery_hint">开启后成品写入 Movies/KiruFetch，相册可直接看到；选了自定义目录时以目录为准</string>
     <string name="delete">删除</string>
     <string name="cancel">取消</string>
     <string name="share">分享</string>

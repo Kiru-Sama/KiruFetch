@@ -16,6 +16,10 @@ import com.kirufetch.app.settings.AppPrefs
 
 class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
+    private companion object {
+        const val REQ_STORAGE = 1001
+    }
+
     private lateinit var prefs: AppPrefs
     private lateinit var storagePath: TextView
     private lateinit var storageReset: TextView
@@ -43,6 +47,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         val cookies = view.findViewById<Switch>(R.id.setting_cookies)
         val autoSniff = view.findViewById<Switch>(R.id.setting_auto_sniff)
         val clipboard = view.findViewById<Switch>(R.id.setting_clipboard)
+        val gallery = view.findViewById<Switch>(R.id.setting_gallery)
         storagePath = view.findViewById(R.id.setting_storage_path)
         storageReset = view.findViewById(R.id.setting_storage_reset)
 
@@ -56,6 +61,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         cookies.isChecked = prefs.allowCookies
         autoSniff.isChecked = prefs.autoSniff
         clipboard.isChecked = prefs.clipboardWatch
+        gallery.isChecked = prefs.saveToGallery
 
         renderStorage()
 
@@ -86,6 +92,22 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         cookies.setOnCheckedChangeListener { _, checked -> prefs.allowCookies = checked }
         autoSniff.setOnCheckedChangeListener { _, checked -> prefs.autoSniff = checked }
         clipboard.setOnCheckedChangeListener { _, checked -> prefs.clipboardWatch = checked }
+        gallery.setOnCheckedChangeListener { _, checked ->
+            if (checked && android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.Q &&
+                androidx.core.content.ContextCompat.checkSelfPermission(
+                    requireContext(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+                ) != android.content.pm.PackageManager.PERMISSION_GRANTED
+            ) {
+                // Android 8/9 写公共目录要权限；没给就先不打开
+                requestPermissions(
+                    arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), REQ_STORAGE
+                )
+                gallery.isChecked = false
+                prefs.saveToGallery = false
+            } else {
+                prefs.saveToGallery = checked
+            }
+        }
     }
 
     private fun renderStorage() {

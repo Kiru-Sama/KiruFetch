@@ -137,6 +137,22 @@
                 android:textColor="@color/text"
                 android:textSize="@dimen/text_body" />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="@dimen/space_l"
+                android:background="@color/divider" />
+
+            <Switch
+                android:id="@+id/setting_gallery"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/touch_target"
+                android:paddingHorizontal="@dimen/space_l"
+                android:text="@string/setting_gallery"
+                android:textColor="@color/text"
+                android:textSize="@dimen/text_body" />
+
         </LinearLayout>
 
         <!-- 存储 -->

@@ -266,6 +266,13 @@ class DownloadManager(context: Context) {
                     file.delete()
                     finalPath = exported
                 }
+            } else if (prefs.saveToGallery) {
+                // 没指定目录时写进系统媒体库，相册里直接能看到
+                val published = GalleryTarget.publish(appContext, file, output.name)
+                if (published != null) {
+                    file.delete()
+                    finalPath = published
+                }
             }
             store.updateOutputPath(id, finalPath)
             // 完成时把真实字节数写回去，列表里的"已完成 · 1 KB"就是这么来的

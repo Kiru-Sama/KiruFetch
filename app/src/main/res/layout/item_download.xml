@@ -6,17 +6,30 @@
     android:layout_marginHorizontal="@dimen/space_l"
     android:layout_marginVertical="@dimen/space_xs"
     android:background="@drawable/bg_card"
-    android:padding="@dimen/space_l">
+    android:padding="@dimen/space_m">
+
+    <ImageView
+        android:id="@+id/download_thumb"
+        android:layout_width="96dp"
+        android:layout_height="54dp"
+        android:background="@drawable/bg_thumb"
+        android:clipToOutline="true"
+        android:contentDescription="@null"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/download_name"
         style="@style/Text.Body"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_m"
         android:ellipsize="middle"
         android:maxLines="1"
         app:layout_constraintEnd_toStartOf="@id/download_action"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/download_thumb"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -29,7 +42,7 @@
         android:maxLines="1"
         android:textColor="@color/text_faint"
         app:layout_constraintEnd_toStartOf="@id/download_action"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@id/download_name"
         app:layout_constraintTop_toBottomOf="@id/download_name" />
 
     <ProgressBar
@@ -37,13 +50,13 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="0dp"
         android:layout_height="2dp"
-        android:layout_marginTop="@dimen/space_m"
+        android:layout_marginTop="@dimen/space_s"
         android:max="100"
         android:progressBackgroundTint="@color/surface_3"
         android:progressTint="@color/text"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@id/download_name"
         app:layout_constraintTop_toBottomOf="@id/download_status" />
 
     <ImageButton

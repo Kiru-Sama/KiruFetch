@@ -35,7 +35,12 @@ class AppPrefs(context: Context) {
         get() = sp.getBoolean(KEY_AUTO_SNIFF, true)
         set(value) = sp.edit().putBoolean(KEY_AUTO_SNIFF, value).apply()
 
-    /** 用户选的下载目录（SAF tree uri），为空表示用应用专属目录。 */
+    /** 下载完成后是否写入系统媒体库（相册）。默认开。 */
+    var saveToGallery: Boolean
+        get() = sp.getBoolean(KEY_GALLERY, true)
+        set(value) = sp.edit().putBoolean(KEY_GALLERY, value).apply()
+
+    /** 用户选的下载目录（SAF tree uri），为空表示保存到相册。 */
     var downloadTreeUri: String?
         get() = sp.getString(KEY_TREE_URI, null)
         set(value) = sp.edit().putString(KEY_TREE_URI, value).apply()
@@ -53,5 +58,6 @@ class AppPrefs(context: Context) {
         private const val KEY_SEARCH_ENGINE = "search_engine"
         private const val KEY_CLIPBOARD = "clipboard_watch"
         private const val KEY_TREE_URI = "download_tree_uri"
+        private const val KEY_GALLERY = "save_to_gallery"
     }
 }

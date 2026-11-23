@@ -4,26 +4,65 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.kirufetch.app.R
 import com.kirufetch.app.data.DownloadEntity
+import com.kirufetch.app.ui.widget.VideoThumbs
 
 class DownloadAdapter(
     private val onPause: (DownloadEntity) -> Unit,
     private val onResume: (DownloadEntity) -> Unit,
-    private val onDelete: (DownloadEntity) -> Unit,
-    private val onOpen: (DownloadEntity) -> Unit
+    private val onOpen: (DownloadEntity) -> Unit,
+    private val onLongPress: (DownloadEntity) -> Unit,
+    private val onToggleSelect: (DownloadEntity) -> Unit
 ) : RecyclerView.Adapter<DownloadAdapter.VH>() {
 
     private val items = mutableListOf<DownloadEntity>()
 
+    var selectionMode = false
+        private set
+    private val selected = linkedSetOf<String>()
+
     fun submit(list: List<DownloadEntity>) {
         items.clear()
         items.addAll(list)
+        val alive = items.map { it.id }.toSet()
+        selected.retainAll(alive)
         notifyDataSetChanged()
     }
+
+    fun enterSelection(id: String) {
+        selectionMode = true
+        selected.clear()
+        selected.add(id)
+        notifyDataSetChanged()
+    }
+
+    fun exitSelection() {
+        selectionMode = false
+        selected.clear()
+        notifyDataSetChanged()
+    }
+
+    fun toggle(id: String) {
+        if (!selected.remove(id)) selected.add(id)
+        notifyDataSetChanged()
+    }
+
+    fun selectAll(ids: List<String>) {
+        selected.clear()
+        selected.addAll(ids)
+        notifyDataSetChanged()
+    }
+
+    fun selectedIds(): List<String> = selected.toList()
+
+    fun selectedCount(): Int = selected.size
+
+    fun allSelected(ids: List<String>): Boolean = ids.isNotEmpty() && selected.containsAll(ids)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
         val view = LayoutInflater.from(parent.context)
@@ -40,6 +79,7 @@ class DownloadAdapter(
         private val status: TextView = itemView.findViewById(R.id.download_status)
         private val bar: ProgressBar = itemView.findViewById(R.id.download_progress)
         private val action: ImageButton = itemView.findViewById(R.id.download_action)
+        private val thumb: ImageView = itemView.findViewById(R.id.download_thumb)
         private val ctx = itemView.context
 
         fun bind(item: DownloadEntity) {
@@ -71,9 +111,32 @@ class DownloadAdapter(
                 }
             }
 
+            bindThumb(item)
+
+            val chosen = selectionMode && selected.contains(item.id)
+            itemView.setBackgroundResource(
+                if (chosen) R.drawable.bg_card_selected else R.drawable.bg_card
+            )
+            action.visibility = if (selectionMode) View.INVISIBLE else View.VISIBLE
+
             itemView.setOnLongClickListener {
-                onDelete(item)
+                onLongPress(item)
                 true
+            }
+            itemView.setOnClickListener {
+                if (selectionMode) onToggleSelect(item)
+            }
+        }
+
+        private fun bindThumb(item: DownloadEntity) {
+            val tagKey = item.id
+            thumb.tag = tagKey
+            if (!item.isDone) {
+                thumb.setImageDrawable(null)
+                return
+            }
+            VideoThumbs.load(ctx, tagKey, item.outputPath) { bmp ->
+                if (thumb.tag == tagKey) thumb.setImageBitmap(bmp)
             }
         }
 

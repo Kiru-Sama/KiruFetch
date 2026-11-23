@@ -50,6 +50,7 @@ object StorageTarget {
 
     fun exists(context: Context, path: String?): Boolean {
         if (path.isNullOrBlank()) return false
+        if (GalleryTarget.isGalleryPath(path)) return GalleryTarget.exists(context, path)
         return if (isDocumentPath(path)) {
             runCatching {
                 DocumentFile.fromSingleUri(context, Uri.parse(path))?.exists() == true
@@ -59,8 +60,13 @@ object StorageTarget {
         }
     }
 
+    /** 只删除文件本身，调用方负责决定要不要删（现在删记录默认不删文件）。 */
     fun delete(context: Context, path: String?) {
         if (path.isNullOrBlank()) return
+        if (GalleryTarget.isGalleryPath(path)) {
+            GalleryTarget.delete(context, path)
+            return
+        }
         if (isDocumentPath(path)) {
             runCatching {
                 val uri = Uri.parse(path)
