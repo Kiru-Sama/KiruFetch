@@ -7,7 +7,9 @@ data class MediaCandidate(
     val headers: Map<String, String> = emptyMap(),
     val kind: Kind = Kind.UNKNOWN,
     val mimeType: String? = null,
-    val fileName: String? = null
+    val fileName: String? = null,
+    /** 页面封面（og:image / video poster），候选列表用来显示缩略图 */
+    val posterUrl: String? = null
 ) {
     enum class Kind {
         MP4, WEBM, HLS, DASH, AUDIO, UNKNOWN_VIDEO, UNKNOWN

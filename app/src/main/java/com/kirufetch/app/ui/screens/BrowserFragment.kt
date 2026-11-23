@@ -52,6 +52,7 @@ class BrowserFragment : Fragment(R.layout.fragment_browser) {
         var lastUrl: String = ""
         var tabRef: TabLayout.Tab? = null
         var labelView: TextView? = null
+        var posterUrl: String? = null
         val candidates = LinkedHashMap<String, MediaCandidate>()
         val sniffedHeaders = java.util.concurrent.ConcurrentHashMap<String, Map<String, String>>()
 
@@ -300,7 +301,23 @@ class BrowserFragment : Fragment(R.layout.fragment_browser) {
         }
 
         wv.addJavascriptInterface(
-            MediaBridge { urls -> urls.forEach { offerUrl(tab, it, null, null) } },
+            MediaBridge(
+                onUrls = { urls -> urls.forEach { offerUrl(tab, it, null, null) } },
+                onPoster = { poster ->
+                    if (tab.posterUrl != poster) {
+                        tab.posterUrl = poster
+                        // 已经抓到的候选没有封面，补上再刷新
+                        var changed = false
+                        tab.candidates.replaceAll { _, c ->
+                            if (c.posterUrl == null) {
+                                changed = true
+                                c.copy(posterUrl = poster)
+                            } else c
+                        }
+                        if (changed) view?.post { if (isAdded && active === tab) renderActive() }
+                    }
+                }
+            ),
             "KiruFetchBridge"
         )
 
@@ -408,7 +425,8 @@ class BrowserFragment : Fragment(R.layout.fragment_browser) {
                     pageUrl = pageUrl,
                     headers = merged,
                     kind = kind,
-                    mimeType = mime
+                    mimeType = mime,
+                    posterUrl = tab.posterUrl
                 )
             )
             if (tab.candidates.size == before) return@post

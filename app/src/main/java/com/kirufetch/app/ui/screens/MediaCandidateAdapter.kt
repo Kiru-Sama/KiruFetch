@@ -7,11 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.kirufetch.app.R
 import com.kirufetch.app.sniff.MediaCandidate
+import com.kirufetch.app.ui.widget.RemoteThumbs
 
 class MediaCandidateAdapter(
     private val onClick: (MediaCandidate) -> Unit
@@ -40,6 +42,7 @@ class MediaCandidateAdapter(
         private val title: TextView = view.findViewById(R.id.candidate_title)
         private val meta: TextView = view.findViewById(R.id.candidate_meta)
         private val download: ImageButton = view.findViewById(R.id.candidate_download)
+        private val thumb: ImageView = view.findViewById(R.id.candidate_thumb)
         private val ctx: Context = view.context
 
         fun bind(item: MediaCandidate) {
@@ -58,6 +61,8 @@ class MediaCandidateAdapter(
                 }
             }.ifBlank { item.url.take(48) }
 
+            bindThumb(item)
+
             download.setOnClickListener { onClick(item) }
             itemView.setOnClickListener { onClick(item) }
 
@@ -66,6 +71,16 @@ class MediaCandidateAdapter(
                 cm.setPrimaryClip(ClipData.newPlainText("video url", item.url))
                 Toast.makeText(ctx, R.string.copy_link, Toast.LENGTH_SHORT).show()
                 true
+            }
+        }
+
+        private fun bindThumb(item: MediaCandidate) {
+            val poster = item.posterUrl
+            thumb.tag = item.id
+            thumb.setImageDrawable(null)
+            if (poster.isNullOrBlank()) return
+            RemoteThumbs.load(ctx, poster) { bmp ->
+                if (thumb.tag == item.id && bmp != null) thumb.setImageBitmap(bmp)
             }
         }
     }

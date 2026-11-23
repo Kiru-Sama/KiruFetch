@@ -43,8 +43,27 @@ object MediaSniffScript {
     return out.filter(function(u){ return /^https?:/i.test(u); });
   }
 
-  setInterval(function(){ send(collect()); }, 1500);
-  document.addEventListener('DOMContentLoaded', function(){ send(collect()); });
+  function abs(u){
+    try { return new URL(u, location.href).href; } catch(e) { return ''; }
+  }
+
+  function sendPoster(){
+    var bridge = window.KiruFetchBridge;
+    if (!bridge || typeof bridge.onPagePoster !== 'function') return;
+    var url = '';
+    try {
+      var v = document.querySelector('video[poster]');
+      if (v && v.poster) url = v.poster;
+      if (!url) {
+        var m = document.querySelector('meta[property="og:image"],meta[name="twitter:image"],link[rel="image_src"]');
+        if (m) url = m.content || m.href || '';
+      }
+    } catch(e) {}
+    if (url) bridge.onPagePoster(abs(url));
+  }
+
+  setInterval(function(){ sendPoster(); send(collect()); }, 1500);
+  document.addEventListener('DOMContentLoaded', function(){ sendPoster(); send(collect()); });
 })();
 """
 }
