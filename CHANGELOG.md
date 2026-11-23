@@ -2,6 +2,15 @@
 
 格式参考 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，版本号遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## [1.1.1] - 2026-11-23
+
+### 修复
+
+- **登录页白屏**：`setSupportMultipleWindows(false)` + 禁止 JS 开窗时，X / Google 的 `window.open` 登录弹窗被静默丢弃，页面停在空白。现在允许多窗口，弹窗接到新标签页打开
+- 开启第三方 Cookie，避免 OAuth 往返丢会话
+- UA 补全 `(KHTML, like Gecko)`，减少站点误判为非标浏览器
+- debug 包新增 WebView 控制台与主框架错误日志（tag `WVConsole`），便于排查此类问题
+
 ## [1.1.0] - 2026-11-23
 
 ### 新增

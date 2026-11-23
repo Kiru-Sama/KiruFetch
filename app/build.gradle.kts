@@ -20,7 +20,7 @@ val envVersionName = System.getenv("VERSION_NAME")?.removePrefix("v")?.takeIf { 
 val envVersionCode = System.getenv("VERSION_CODE")?.toIntOrNull()
 
 // tag 版本号推导 versionCode：1.0.1 -> 10001，避免每次发版都停在 1
-val baseVersionName = envVersionName ?: "1.1.0"
+val baseVersionName = envVersionName ?: "1.1.1"
 val derivedCode = baseVersionName.let { v ->
     val nums = Regex("\\d+").findAll(v).take(3).map { it.value.toIntOrNull() ?: 0 }.toList()
     if (nums.size >= 2) nums[0] * 10000 + nums[1] * 100 + nums.getOrElse(2) { 0 } else null

@@ -292,8 +292,10 @@ class BrowserFragment : Fragment(R.layout.fragment_browser) {
             domStorageEnabled = true
             useWideViewPort = true
             loadWithOverviewMode = true
-            javaScriptCanOpenWindowsAutomatically = false
-            setSupportMultipleWindows(false)
+            // OAuth 登录（X/Google）依赖弹窗和第三方 cookie：
+            // 关掉多窗口时 window.open 会静默失败，登录流程停在白页
+            javaScriptCanOpenWindowsAutomatically = true
+            setSupportMultipleWindows(true)
             allowFileAccess = false
             allowContentAccess = false
             mediaPlaybackRequiresUserGesture = true
@@ -320,6 +322,37 @@ class BrowserFragment : Fragment(R.layout.fragment_browser) {
             ),
             "KiruFetchBridge"
         )
+
+        // 第三方 cookie 默认是关的，Google/X 的登录往返依赖它
+        android.webkit.CookieManager.getInstance().apply {
+            setAcceptCookie(true)
+            setAcceptThirdPartyCookies(wv, true)
+        }
+
+        // window.open 出来的登录弹窗，接到一个新标签里，登录完再回到原页
+        wv.webChromeClient = object : android.webkit.WebChromeClient() {
+            override fun onCreateWindow(
+                view: android.webkit.WebView?,
+                isDialog: Boolean,
+                isUserGesture: Boolean,
+                resultMsg: android.os.Message?
+            ): Boolean {
+                val transport = resultMsg?.obj as? android.webkit.WebView.WebViewTransport ?: return false
+                val popup = newTab()
+                transport.webView = popup.webView
+                resultMsg.sendToTarget()
+                selectTab(popup)
+                return true
+            }
+
+            // 白屏排查用：debug 包把网页控制台和加载错误打到 logcat
+            override fun onConsoleMessage(msg: android.webkit.ConsoleMessage?): Boolean {
+                if (com.kirufetch.app.BuildConfig.DEBUG && msg != null) {
+                    android.util.Log.d("WVConsole", "${msg.messageLevel()} ${msg.message()} @${msg.sourceId()}:${msg.lineNumber()}")
+                }
+                return false
+            }
+        }
 
         wv.webViewClient = object : WebViewClient() {
             /**
@@ -363,6 +396,19 @@ class BrowserFragment : Fragment(R.layout.fragment_browser) {
                     offerUrl(tab, url, null, r.requestHeaders.orEmpty())
                 }
                 return null
+            }
+
+            override fun onReceivedError(
+                view: WebView?,
+                request: WebResourceRequest?,
+                error: android.webkit.WebResourceError?
+            ) {
+                if (request?.isForMainFrame == true) {
+                    android.util.Log.w(
+                        "WVConsole",
+                        "main-frame error ${error?.errorCode} ${error?.description} ${request.url}"
+                    )
+                }
             }
 
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
