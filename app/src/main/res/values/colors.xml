@@ -22,7 +22,11 @@
 
     <!-- 卡片：solid 用于内容区，translucent 让背景微粒隐约透出 -->
     <color name="card">#FFFFFF</color>
-    <color name="card_translucent">#D9FFFFFF</color>
     <color name="nav_translucent">#F0FFFFFF</color>
     <color name="hairline">#E6E6E6</color>
+
+    <!-- 半透明层：让背景微粒透出 -->
+    <color name="card_translucent">#E6FFFFFF</color>
+    <color name="card_selected">#F2FFFFFF</color>
+    <color name="bar_translucent">#F7FFFFFF</color>
 </resources>

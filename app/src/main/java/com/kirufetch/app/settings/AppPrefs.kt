@@ -35,6 +35,16 @@ class AppPrefs(context: Context) {
         get() = sp.getBoolean(KEY_AUTO_SNIFF, true)
         set(value) = sp.edit().putBoolean(KEY_AUTO_SNIFF, value).apply()
 
+    /** 是否看过首次教程。 */
+    var onboarded: Boolean
+        get() = sp.getBoolean(KEY_ONBOARDED, false)
+        set(value) = sp.edit().putBoolean(KEY_ONBOARDED, value).apply()
+
+    /** 上次检查更新的时间，避免每次切回前台都发请求。 */
+    var lastUpdateCheck: Long
+        get() = sp.getLong(KEY_LAST_UPDATE, 0L)
+        set(value) = sp.edit().putLong(KEY_LAST_UPDATE, value).apply()
+
     /** 启动时是否检查 GitHub Release 更新。默认开。 */
     var autoCheckUpdate: Boolean
         get() = sp.getBoolean(KEY_AUTO_UPDATE, true)
@@ -71,5 +81,7 @@ class AppPrefs(context: Context) {
         private const val KEY_GALLERY = "save_to_gallery"
         private const val KEY_AUTO_UPDATE = "auto_check_update"
         private const val KEY_SKIPPED_VERSION = "skipped_version"
+        private const val KEY_ONBOARDED = "onboarded"
+        private const val KEY_LAST_UPDATE = "last_update_check"
     }
 }

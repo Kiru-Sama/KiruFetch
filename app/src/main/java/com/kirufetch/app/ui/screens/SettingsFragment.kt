@@ -100,6 +100,22 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         view.findViewById<View>(R.id.setting_check_row).setOnClickListener {
             (activity as? MainActivity)?.checkUpdateManually()
         }
+        view.findViewById<View>(R.id.setting_tutorial_row).setOnClickListener {
+            startActivity(android.content.Intent(requireContext(), OnboardingActivity::class.java))
+        }
+        view.findViewById<View>(R.id.setting_feedback_row).setOnClickListener {
+            val cm = requireContext()
+                .getSystemService(android.content.Context.CLIPBOARD_SERVICE)
+                    as android.content.ClipboardManager
+            cm.setPrimaryClip(
+                android.content.ClipData.newPlainText(
+                    "qq", getString(R.string.feedback_group_number)
+                )
+            )
+            android.widget.Toast.makeText(
+                requireContext(), R.string.onboard_group_copied, android.widget.Toast.LENGTH_SHORT
+            ).show()
+        }
         gallery.setOnCheckedChangeListener { _, checked ->
             if (checked && android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.Q &&
                 androidx.core.content.ContextCompat.checkSelfPermission(
@@ -123,9 +139,8 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
         val tree = prefs.downloadTreeUri
         if (tree.isNullOrBlank()) {
-            val dir = requireContext().getExternalFilesDir(android.os.Environment.DIRECTORY_DOWNLOADS)
-                ?: requireContext().filesDir
-            storagePath.text = getString(R.string.storage_app_default) + "\n" + dir.absolutePath
+            storagePath.text = getString(R.string.storage_app_default) +
+                    "\n" + "Movies/KiruFetch"
             storageReset.visibility = View.GONE
         } else {
             val name = runCatching {

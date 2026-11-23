@@ -51,11 +51,11 @@
     <string name="setting_cookies">下载时携带页面 Cookie</string>
     <string name="setting_auto_sniff">自动嗅探视频</string>
     <string name="setting_boundary">不处理登录墙、付费墙、DRM 与受访问控制的媒体。</string>
-    <string name="setting_storage">下载目录</string>
+    <string name="setting_storage">保存位置</string>
     <string name="choose_folder">选择</string>
     <string name="reset_folder">恢复默认目录</string>
-    <string name="storage_app_default">应用专属目录（默认）</string>
-    <string name="setting_storage_hint">不选目录时保存到相册（Movies/KiruFetch）；选了目录则保存到该目录</string>
+    <string name="storage_app_default">相册（默认）</string>
+    <string name="setting_storage_hint">默认存到系统相册的 Movies/KiruFetch；点「选择」可换成自定义目录，换后不再进相册</string>
 
     <string name="status_queued">排队中</string>
     <string name="status_running">下载中 %1$d%%</string>
@@ -68,6 +68,27 @@
     <string name="delete_task">删除任务</string>
     <string name="delete_task_message">只删除下载记录？已保存到相册或所选目录的文件会保留。</string>
     <string name="delete_record_only">只删记录</string>
+    <string name="feedback_group_number">812971033</string>
+    <string name="feedback_group_name">KiruFetch反馈群</string>
+    <string name="setting_tutorial">使用教程</string>
+    <string name="setting_feedback">反馈群</string>
+
+    <string name="onboard_step">0%1$d / 04</string>
+    <string name="onboard_skip">跳过</string>
+    <string name="onboard_next">下一步</string>
+    <string name="onboard_start">开始使用</string>
+    <string name="onboard_group_label">反馈群</string>
+    <string name="onboard_group_hint">点击复制群号</string>
+    <string name="onboard_group_copied">群号已复制</string>
+    <string name="onboard_1_title">打开网页，\n视频自己现身</string>
+    <string name="onboard_1_body">在地址栏输入网址。页面里的直链、HLS、DASH 会被自动找出来，底部「发现视频」点开就能看到候选，封面和清晰度一目了然。</string>
+    <string name="onboard_2_title">选好清晰度，\n直接变成本地文件</string>
+    <string name="onboard_2_body">多线程下载、断点续传、暂停恢复。下完自动写进系统相册的 Movies/KiruFetch，相册和文件管理里都能直接看到。</string>
+    <string name="onboard_3_title">下完还能管，\n长按进批量</string>
+    <string name="onboard_3_body">列表带视频封面。长按任一条进多选，可以全选、批量暂停、批量删除；删除记录不会删掉相册里的文件。播放页双击快退快进，上下滑调亮度和音量。</string>
+    <string name="onboard_4_title">遇到问题，\n进群说一句</string>
+    <string name="onboard_4_body">把版本号、机型和出问题的网址发到群里，定位最快。设置里随时能再找到这个群号。</string>
+
     <string name="setting_update">版本 %1$s</string>
     <string name="setting_check_update">检查更新</string>
     <string name="setting_auto_update">自动检查更新</string>

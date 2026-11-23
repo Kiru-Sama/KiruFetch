@@ -48,6 +48,17 @@ class MainActivity : AppCompatActivity() {
         return super.dispatchTouchEvent(ev)
     }
 
+    override fun onStart() {
+        super.onStart()
+        // 每次回到前台都检查一次，10 分钟内不重复请求；首次教程没看完先不打扰
+        val prefs = AppPrefs(this)
+        val now = System.currentTimeMillis()
+        if (prefs.onboarded && now - prefs.lastUpdateCheck > 10 * 60 * 1000L) {
+            prefs.lastUpdateCheck = now
+            maybeCheckUpdate(manual = false)
+        }
+    }
+
     /** 设置页点"检查更新"时调用。 */
     fun checkUpdateManually() = maybeCheckUpdate(manual = true)
 
@@ -156,7 +167,9 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-        if (savedInstanceState == null) maybeCheckUpdate(manual = false)
+        if (!AppPrefs(this).onboarded) {
+            startActivity(Intent(this, OnboardingActivity::class.java))
+        }
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {

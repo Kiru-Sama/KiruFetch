@@ -41,6 +41,11 @@
         </activity>
 
         <activity
+            android:name=".ui.screens.OnboardingActivity"
+            android:exported="false"
+            android:theme="@style/Theme.KiruFetch" />
+
+        <activity
             android:name=".ui.screens.PlayerActivity"
             android:configChanges="orientation|screenSize"
             android:exported="false"
