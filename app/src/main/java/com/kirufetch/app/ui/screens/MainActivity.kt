@@ -11,9 +11,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.kirufetch.app.BuildConfig
 import com.kirufetch.app.R
 import com.kirufetch.app.download.DownloadManager
+import com.kirufetch.app.settings.AppPrefs
+import com.kirufetch.app.update.ApkUpdater
+import com.kirufetch.app.update.UpdateChecker
+import com.kirufetch.app.update.UpdateInfo
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -40,6 +48,98 @@ class MainActivity : AppCompatActivity() {
         return super.dispatchTouchEvent(ev)
     }
 
+    /** 设置页点"检查更新"时调用。 */
+    fun checkUpdateManually() = maybeCheckUpdate(manual = true)
+
+    private fun maybeCheckUpdate(manual: Boolean) {
+        val prefs = AppPrefs(this)
+        if (!manual && !prefs.autoCheckUpdate) return
+        if (manual) {
+            android.widget.Toast.makeText(this, R.string.update_checking, android.widget.Toast.LENGTH_SHORT).show()
+        }
+        lifecycleScope.launch {
+            val info = UpdateChecker.latest()
+            if (info == null) {
+                if (manual) toast(R.string.update_check_failed)
+                return@launch
+            }
+            if (!UpdateChecker.isNewer(info.version, BuildConfig.VERSION_NAME)) {
+                if (manual) toast(R.string.update_is_latest)
+                return@launch
+            }
+            if (!manual && prefs.skippedVersion == info.version) return@launch
+            showUpdateDialog(info, prefs)
+        }
+    }
+
+    private fun toast(resId: Int) {
+        android.widget.Toast.makeText(this, resId, android.widget.Toast.LENGTH_SHORT).show()
+    }
+
+    private fun showUpdateDialog(info: UpdateInfo, prefs: AppPrefs) {
+        val notes = cleanNotes(info.notes)
+        MaterialAlertDialogBuilder(this)
+            .setTitle(getString(R.string.update_found_title, info.version))
+            .setMessage(notes)
+            .setPositiveButton(R.string.update_now) { _, _ -> startUpdate(info) }
+            .setNeutralButton(R.string.update_skip) { _, _ -> prefs.skippedVersion = info.version }
+            .setNegativeButton(R.string.update_later, null)
+            .show()
+    }
+
+    /** Release 正文是 markdown，弹窗里不需要星号和标题符号；太长会挤掉按钮，这里截断。 */
+    private fun cleanNotes(raw: String): String {
+        val text = raw
+            .replace("**", "")
+            .replace("`", "")
+            .replace(Regex("^#{1,6}\\s*", RegexOption.MULTILINE), "")
+            .trim()
+        if (text.isBlank()) return getString(R.string.update_no_notes)
+        return if (text.length <= 120) text else text.take(120).trimEnd() + "…"
+    }
+
+    private fun startUpdate(info: UpdateInfo) {
+        if (!ApkUpdater.canInstall(this)) {
+            toast(R.string.update_need_permission)
+            ApkUpdater.openInstallPermission(this)
+            return
+        }
+
+        val density = resources.displayMetrics.density
+        val pad = (20 * density).toInt()
+        val label = android.widget.TextView(this).apply {
+            text = getString(R.string.update_downloading)
+            setPadding(pad, pad, pad, (8 * density).toInt())
+        }
+        val bar = android.widget.ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal).apply {
+            max = 100
+            setPadding(pad, 0, pad, pad)
+        }
+        val box = android.widget.LinearLayout(this).apply {
+            orientation = android.widget.LinearLayout.VERTICAL
+            addView(label)
+            addView(bar)
+        }
+        val dialog = MaterialAlertDialogBuilder(this)
+            .setView(box)
+            .setCancelable(false)
+            .show()
+
+        lifecycleScope.launch {
+            val file = ApkUpdater.download(this@MainActivity, info.apkUrl) { percent ->
+                runOnUiThread { bar.progress = percent }
+            }
+            dialog.dismiss()
+            if (file == null) {
+                toast(R.string.update_download_failed)
+                return@launch
+            }
+            if (!ApkUpdater.install(this@MainActivity, file)) {
+                toast(R.string.update_install_failed)
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -55,6 +155,8 @@ class MainActivity : AppCompatActivity() {
             show(item.itemId, true)
             true
         }
+
+        if (savedInstanceState == null) maybeCheckUpdate(manual = false)
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {

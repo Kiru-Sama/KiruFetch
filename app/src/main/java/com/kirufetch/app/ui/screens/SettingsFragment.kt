@@ -48,6 +48,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         val autoSniff = view.findViewById<Switch>(R.id.setting_auto_sniff)
         val clipboard = view.findViewById<Switch>(R.id.setting_clipboard)
         val gallery = view.findViewById<Switch>(R.id.setting_gallery)
+        val autoUpdate = view.findViewById<Switch>(R.id.setting_auto_update)
         storagePath = view.findViewById(R.id.setting_storage_path)
         storageReset = view.findViewById(R.id.setting_storage_reset)
 
@@ -62,6 +63,9 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         autoSniff.isChecked = prefs.autoSniff
         clipboard.isChecked = prefs.clipboardWatch
         gallery.isChecked = prefs.saveToGallery
+        autoUpdate.isChecked = prefs.autoCheckUpdate
+        view.findViewById<android.widget.TextView>(R.id.setting_version_value).text =
+            getString(R.string.setting_update, com.kirufetch.app.BuildConfig.VERSION_NAME)
 
         renderStorage()
 
@@ -92,6 +96,10 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         cookies.setOnCheckedChangeListener { _, checked -> prefs.allowCookies = checked }
         autoSniff.setOnCheckedChangeListener { _, checked -> prefs.autoSniff = checked }
         clipboard.setOnCheckedChangeListener { _, checked -> prefs.clipboardWatch = checked }
+        autoUpdate.setOnCheckedChangeListener { _, checked -> prefs.autoCheckUpdate = checked }
+        view.findViewById<View>(R.id.setting_check_row).setOnClickListener {
+            (activity as? MainActivity)?.checkUpdateManually()
+        }
         gallery.setOnCheckedChangeListener { _, checked ->
             if (checked && android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.Q &&
                 androidx.core.content.ContextCompat.checkSelfPermission(

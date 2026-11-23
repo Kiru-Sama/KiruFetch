@@ -35,6 +35,16 @@ class AppPrefs(context: Context) {
         get() = sp.getBoolean(KEY_AUTO_SNIFF, true)
         set(value) = sp.edit().putBoolean(KEY_AUTO_SNIFF, value).apply()
 
+    /** 启动时是否检查 GitHub Release 更新。默认开。 */
+    var autoCheckUpdate: Boolean
+        get() = sp.getBoolean(KEY_AUTO_UPDATE, true)
+        set(value) = sp.edit().putBoolean(KEY_AUTO_UPDATE, value).apply()
+
+    /** 用户点了"跳过此版本"的版本号。 */
+    var skippedVersion: String?
+        get() = sp.getString(KEY_SKIPPED_VERSION, null)
+        set(value) = sp.edit().putString(KEY_SKIPPED_VERSION, value).apply()
+
     /** 下载完成后是否写入系统媒体库（相册）。默认开。 */
     var saveToGallery: Boolean
         get() = sp.getBoolean(KEY_GALLERY, true)
@@ -59,5 +69,7 @@ class AppPrefs(context: Context) {
         private const val KEY_CLIPBOARD = "clipboard_watch"
         private const val KEY_TREE_URI = "download_tree_uri"
         private const val KEY_GALLERY = "save_to_gallery"
+        private const val KEY_AUTO_UPDATE = "auto_check_update"
+        private const val KEY_SKIPPED_VERSION = "skipped_version"
     }
 }
